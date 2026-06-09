@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GlobalStatsX — Coming Soon</title>
+  <meta name="description" content="GlobalStatsX is coming soon. Follow us for updates." />
+  <meta name="theme-color" content="#060912" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="GlobalStatsX — Coming Soon" />
+  <meta property="og:description" content="GlobalStatsX is coming soon. Follow us for updates." />
+  <meta property="og:url" content="https://globalstatsx.com/" />
+  <meta name="twitter:card" content="summary" />
+
+  <!-- Inline SVG favicon (a small globe) — no extra request -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230b1430'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%234d7fc4' stroke-width='1.4'/%3E%3Cpath d='M5 16h22M16 5v22M8 9c5 4 11 4 16 0M8 23c5-4 11-4 16 0' fill='none' stroke='%234d7fc4' stroke-width='1.2'/%3E%3C/svg%3E" />
+
+  <style>
+    :root { color-scheme: dark; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #060912;
+      color: #fff;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Space backdrop ──────────────────────────────────────────────── */
+    .space {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(140% 100% at 50% -10%, #0e1a36 0%, #0a1226 35%, #050811 72%);
+    }
+
+    /* subtle starfield (a handful of points in the upper sky) */
+    .stars {
+      position: fixed; inset: 0; z-index: 0;
+      opacity: .75;
+      animation: twinkle 6s ease-in-out infinite;
+      background-repeat: no-repeat;
+      background-image:
+        radial-gradient(1.2px 1.2px at 15% 22%, #fff, transparent),
+        radial-gradient(1px 1px   at 75% 12%, rgba(255,255,255,.9), transparent),
+        radial-gradient(1.4px 1.4px at 42% 34%, rgba(255,255,255,.85), transparent),
+        radial-gradient(1px 1px   at 88% 28%, rgba(255,255,255,.7), transparent),
+        radial-gradient(1px 1px   at 28% 8%,  rgba(255,255,255,.7), transparent),
+        radial-gradient(1.2px 1.2px at 60% 24%, #fff, transparent),
+        radial-gradient(1px 1px   at 8% 44%,  rgba(255,255,255,.6), transparent),
+        radial-gradient(1px 1px   at 92% 48%, rgba(255,255,255,.6), transparent),
+        radial-gradient(1px 1px   at 50% 6%,  rgba(255,255,255,.7), transparent),
+        radial-gradient(1.3px 1.3px at 35% 16%, #fff, transparent),
+        radial-gradient(1px 1px   at 66% 40%, rgba(255,255,255,.55), transparent),
+        radial-gradient(1px 1px   at 22% 30%, rgba(255,255,255,.6), transparent);
+    }
+    @keyframes twinkle { 0%,100% { opacity: .55; } 50% { opacity: .85; } }
+
+    /* the planet — a large sphere rising from the bottom, showing the curve */
+    .planet {
+      position: fixed; left: 50%; bottom: -80vmin; transform: translateX(-50%);
+      width: 165vmin; height: 165vmin; border-radius: 50%;
+      z-index: 0;
+      background:
+        radial-gradient(125% 125% at 50% 16%,
+          #5285c9 0%, #2f5d99 20%, #1a3c69 42%, #0e2447 64%, #07142b 100%);
+      box-shadow:
+        inset 0 8px 70px rgba(150,190,255,.30),   /* lit upper limb */
+        inset 0 -40px 120px rgba(4,8,18,.55),      /* terminator/shade */
+        0 0 110px 34px rgba(45,90,160,.45);        /* atmospheric glow */
+    }
+    /* a thin bright atmosphere arc along the top edge of the planet */
+    .atmo {
+      position: fixed; left: 50%; bottom: -80vmin; transform: translateX(-50%);
+      width: 165vmin; height: 165vmin; border-radius: 50%;
+      z-index: 0; pointer-events: none;
+      box-shadow: 0 -3px 26px 2px rgba(140,185,255,.45);
+    }
+
+    /* darken the very bottom for grounding + readability */
+    .vignette {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(120% 75% at 50% 35%, transparent 55%, rgba(3,5,12,.55) 100%);
+    }
+
+    /* ── Content ─────────────────────────────────────────────────────── */
+    .content {
+      position: relative; z-index: 1;
+      padding: 24px;
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .brand {
+      font-size: clamp(.72rem, 2.6vw, .95rem);
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: rgba(255,255,255,.72);
+      margin-bottom: clamp(1rem, 3vw, 1.6rem);
+    }
+
+    .headline {
+      font-size: clamp(2.5rem, 9vw, 5.75rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.02;
+      text-shadow: 0 2px 40px rgba(20,40,90,.5);
+    }
+    .cursor {
+      display: inline-block;
+      margin-left: .06em;
+      font-weight: 300;
+      transform: translateY(-.02em);
+      animation: blink 1.05s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .sub {
+      margin-top: clamp(.9rem, 2.6vw, 1.25rem);
+      font-size: clamp(.92rem, 2.6vw, 1.1rem);
+      color: rgba(255,255,255,.62);
+      font-weight: 400;
+    }
+
+    /* ── Socials ─────────────────────────────────────────────────────── */
+    .socials {
+      display: flex;
+      gap: clamp(.6rem, 2.4vw, .95rem);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: clamp(1.8rem, 5vw, 2.6rem);
+    }
+    .socials a {
+      width: 48px; height: 48px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.14);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      transition: background .2s ease, transform .2s ease, border-color .2s ease;
+    }
+    .socials a:hover, .socials a:focus-visible {
+      background: rgba(255,255,255,.18);
+      border-color: rgba(255,255,255,.28);
+      transform: translateY(-2px);
+      outline: none;
+    }
+    .socials svg { width: 20px; height: 20px; fill: currentColor; display: block; }
+
+    @media (max-width: 380px) {
+      .socials a { width: 44px; height: 44px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor, .stars { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="space" aria-hidden="true"></div>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="planet" aria-hidden="true"></div>
+  <div class="atmo" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <main class="content">
+    <div class="brand">GlobalStatsX</div>
+    <h1 class="headline">Coming&nbsp;Soon...<span class="cursor">|</span></h1>
+    <p class="sub">Something big is on the horizon.</p>
+
+    <nav class="socials" aria-label="GlobalStatsX on social media">
+      <!-- X (Twitter) -->
+      <a href="https://x.com/GlobalStatsX" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.53 3H20.5l-6.48 7.4L21.75 21h-5.97l-4.67-6.1L5.74 21H2.77l6.93-7.92L2.25 3h6.12l4.22 5.58L17.53 3zm-1.05 16.2h1.65L7.6 4.7H5.83l10.65 14.5z"/></svg>
+      </a>
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/globalstatsx/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <!-- Facebook -->
+      <a href="https://www.facebook.com/GlobalstatsX/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H17V3.6c-.3-.04-1.3-.13-2.46-.13-2.43 0-4.1 1.48-4.1 4.21v2.32H7.7V13h2.74v8h3.06z"/></svg>
+      </a>
+      <!-- YouTube -->
+      <a href="https://www.youtube.com/@GlobalStatsX" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 7.2a3 3 0 0 0-2.1-2.1C19.5 4.6 12 4.6 12 4.6s-7.5 0-9.4.5A3 3 0 0 0 .5 7.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-4.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+      </a>
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@globalstatsx" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8.5a6.3 6.3 0 0 1-3.77-1.26v6.94A5.7 5.7 0 1 1 11.6 8.55v2.94a2.8 2.8 0 1 0 1.96 2.67V2h2.95a3.4 3.4 0 0 0 .05.62 3.4 3.4 0 0 0 1.5 2.24A3.4 3.4 0 0 0 21 5.6V8.5z"/></svg>
+      </a>
+    </nav>
+  </main>
+</body>
+</html>
