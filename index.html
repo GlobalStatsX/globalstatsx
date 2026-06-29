@@ -126,12 +126,14 @@
     }
     .cursor {
       display: inline-block;
-      margin-left: .06em;
-      font-weight: 300;
-      transform: translateY(-.02em);
-      animation: blink 1.05s steps(1) infinite;
+      width: .06em;
+      height: .9em;
+      margin-left: .12em;
+      vertical-align: -.04em;
+      background: #fff;
+      animation: blink 1s step-end infinite;
     }
-    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
     .sub {
       margin-top: clamp(.9rem, 2.6vw, 1.25rem);
@@ -216,26 +218,6 @@
       color: transparent;
       text-shadow: 0 2px 40px rgba(40,90,180,.4);
     }
-    .total .live {
-      margin-top: .7rem;
-      display: inline-flex;
-      align-items: center;
-      gap: .45rem;
-      font-size: clamp(.66rem, 2.2vw, .78rem);
-      color: rgba(255,255,255,.55);
-    }
-    .total .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: #2fe07a;
-      box-shadow: 0 0 0 0 rgba(47,224,122,.55);
-      animation: pulse 1.8s ease-out infinite;
-    }
-    @keyframes pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(47,224,122,.5); }
-      70%  { box-shadow: 0 0 0 8px rgba(47,224,122,0); }
-      100% { box-shadow: 0 0 0 0 rgba(47,224,122,0); }
-    }
-
     /* no-JS fallback links */
     .nojs { margin-top: 1.6rem; font-size: .85rem; color: rgba(255,255,255,.7); }
     .nojs a { color: #9cc2ff; }
@@ -244,7 +226,7 @@
       .social a.icon { width: 44px; height: 44px; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .cursor, .stars, .total .dot { animation: none; }
+      .cursor, .stars { animation: none; }
     }
   </style>
 </head>
@@ -257,7 +239,7 @@
 
   <main class="content">
     <div class="brand">GlobalStatsX</div>
-    <h1 class="headline">Coming&nbsp;Soon...<span class="cursor">|</span></h1>
+    <h1 class="headline"><span id="tw"></span><span class="cursor" aria-hidden="true"></span></h1>
     <p class="sub">Something big is on the horizon.</p>
 
     <!-- Social row + live counters — rendered from the CONFIG in the script below -->
@@ -267,7 +249,6 @@
     <div class="total">
       <div class="total-label">Followers across platforms</div>
       <div class="total-num" id="total" aria-live="polite">0</div>
-      <div class="live"><span class="dot" aria-hidden="true"></span> live across all platforms</div>
     </div>
 
     <noscript>
@@ -365,6 +346,32 @@
     }
     if (document.readyState === 'complete') run();
     else window.addEventListener('load', run, { once: true });
+  })();
+  </script>
+
+  <script>
+  // Continuous typewriter loop for the title. Types → pauses → deletes → loops.
+  // Honors prefers-reduced-motion (static full text, no loop).
+  (function typewriter() {
+    var el = document.getElementById('tw');
+    if (!el) return;
+    var TXT = 'Coming Soon...';
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { el.textContent = TXT; return; }
+    var i = 0, deleting = false;
+    (function tick() {
+      if (!deleting) {
+        i++;
+        el.textContent = TXT.slice(0, i);
+        if (i >= TXT.length) { deleting = true; setTimeout(tick, 1800); return; }
+        setTimeout(tick, 110);
+      } else {
+        i--;
+        el.textContent = TXT.slice(0, i);
+        if (i <= 0) { deleting = false; setTimeout(tick, 550); return; }
+        setTimeout(tick, 55);
+      }
+    })();
   })();
   </script>
 </body>
