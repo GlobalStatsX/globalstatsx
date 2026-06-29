@@ -18,13 +18,18 @@
   <!-- Inline SVG favicon (a small globe) — no extra request -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230b1430'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%234d7fc4' stroke-width='1.4'/%3E%3Cpath d='M5 16h22M16 5v22M8 9c5 4 11 4 16 0M8 23c5-4 11-4 16 0' fill='none' stroke='%234d7fc4' stroke-width='1.2'/%3E%3C/svg%3E" />
 
+  <!-- Display font (no display font was previously loaded) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" />
+
   <style>
     :root { color-scheme: dark; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; }
 
     body {
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
                    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: #060912;
       color: #fff;
@@ -135,15 +140,22 @@
       font-weight: 400;
     }
 
-    /* ── Socials ─────────────────────────────────────────────────────── */
+    /* ── Socials + per-platform live counters ─────────────────────────── */
     .socials {
       display: flex;
-      gap: clamp(.6rem, 2.4vw, .95rem);
+      gap: clamp(.7rem, 3.6vw, 1.7rem);
       justify-content: center;
       flex-wrap: wrap;
       margin-top: clamp(1.8rem, 5vw, 2.6rem);
     }
-    .socials a {
+    .social {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .55rem;
+      min-width: 62px;
+    }
+    .social a.icon {
       width: 48px; height: 48px;
       display: grid; place-items: center;
       border-radius: 50%;
@@ -154,19 +166,85 @@
       backdrop-filter: blur(4px);
       transition: background .2s ease, transform .2s ease, border-color .2s ease;
     }
-    .socials a:hover, .socials a:focus-visible {
+    .social a.icon:hover {
       background: rgba(255,255,255,.18);
       border-color: rgba(255,255,255,.28);
       transform: translateY(-2px);
-      outline: none;
     }
-    .socials svg { width: 20px; height: 20px; fill: currentColor; display: block; }
+    .social a.icon:focus-visible {
+      outline: 2px solid #6fa8ff;
+      outline-offset: 3px;
+      background: rgba(255,255,255,.18);
+      border-color: rgba(255,255,255,.28);
+    }
+    .social svg { width: 20px; height: 20px; fill: currentColor; display: block; }
+    .social .count {
+      font-weight: 800;
+      font-size: clamp(.95rem, 3.4vw, 1.18rem);
+      line-height: 1;
+      letter-spacing: -.01em;
+      font-variant-numeric: tabular-nums;
+      color: #fff;
+    }
+    .social .pname {
+      font-size: clamp(.56rem, 2vw, .66rem);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ── Total followers signature block ──────────────────────────────── */
+    .total { margin-top: clamp(1.7rem, 4.8vw, 2.4rem); }
+    .total-label {
+      font-size: clamp(.58rem, 2vw, .7rem);
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: rgba(255,255,255,.5);
+      margin-bottom: .5rem;
+    }
+    .total-num {
+      font-weight: 800;
+      font-size: clamp(2.4rem, 9vw, 4rem);
+      line-height: 1;
+      letter-spacing: -.02em;
+      font-variant-numeric: tabular-nums;
+      background: linear-gradient(180deg, #cfe0ff 0%, #6fa8ff 55%, #3f72c8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 40px rgba(40,90,180,.4);
+    }
+    .total .live {
+      margin-top: .7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: clamp(.66rem, 2.2vw, .78rem);
+      color: rgba(255,255,255,.55);
+    }
+    .total .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #2fe07a;
+      box-shadow: 0 0 0 0 rgba(47,224,122,.55);
+      animation: pulse 1.8s ease-out infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(47,224,122,.5); }
+      70%  { box-shadow: 0 0 0 8px rgba(47,224,122,0); }
+      100% { box-shadow: 0 0 0 0 rgba(47,224,122,0); }
+    }
+
+    /* no-JS fallback links */
+    .nojs { margin-top: 1.6rem; font-size: .85rem; color: rgba(255,255,255,.7); }
+    .nojs a { color: #9cc2ff; }
 
     @media (max-width: 380px) {
-      .socials a { width: 44px; height: 44px; }
+      .social a.icon { width: 44px; height: 44px; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .cursor, .stars { animation: none; }
+      .cursor, .stars, .total .dot { animation: none; }
     }
   </style>
 </head>
@@ -182,28 +260,112 @@
     <h1 class="headline">Coming&nbsp;Soon...<span class="cursor">|</span></h1>
     <p class="sub">Something big is on the horizon.</p>
 
-    <nav class="socials" aria-label="GlobalStatsX on social media">
-      <!-- X (Twitter) -->
-      <a href="https://x.com/GlobalStatsX" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.53 3H20.5l-6.48 7.4L21.75 21h-5.97l-4.67-6.1L5.74 21H2.77l6.93-7.92L2.25 3h6.12l4.22 5.58L17.53 3zm-1.05 16.2h1.65L7.6 4.7H5.83l10.65 14.5z"/></svg>
-      </a>
-      <!-- Instagram -->
-      <a href="https://www.instagram.com/globalstatsx/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38C1.36 2.67.94 3.34.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.12.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.72 2.12-1.38.66-.66 1.08-1.33 1.38-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.72-1.46-1.38-2.12-.66-.66-1.33-1.08-2.12-1.38-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0M12 5.84A6.16 6.16 0 1 0 12 18.16 6.16 6.16 0 0 0 12 5.84M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8M18.41 4.15a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88"/></svg>
-      </a>
-      <!-- Facebook -->
-      <a href="https://www.facebook.com/GlobalstatsX/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H17V3.6c-.3-.04-1.3-.13-2.46-.13-2.43 0-4.1 1.48-4.1 4.21v2.32H7.7V13h2.74v8h3.06z"/></svg>
-      </a>
-      <!-- YouTube -->
-      <a href="https://www.youtube.com/@GlobalStatsX" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 7.2a3 3 0 0 0-2.1-2.1C19.5 4.6 12 4.6 12 4.6s-7.5 0-9.4.5A3 3 0 0 0 .5 7.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-4.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
-      </a>
-      <!-- TikTok -->
-      <a href="https://www.tiktok.com/@globalstatsx" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8.5a6.3 6.3 0 0 1-3.77-1.26v6.94A5.7 5.7 0 1 1 11.6 8.55v2.94a2.8 2.8 0 1 0 1.96 2.67V2h2.95a3.4 3.4 0 0 0 .05.62 3.4 3.4 0 0 0 1.5 2.24A3.4 3.4 0 0 0 21 5.6V8.5z"/></svg>
-      </a>
-    </nav>
+    <!-- Social row + live counters — rendered from the CONFIG in the script below -->
+    <section class="socials" id="socials" aria-label="GlobalStatsX on social media"></section>
+
+    <!-- Total followers signature block -->
+    <div class="total">
+      <div class="total-label">Followers across platforms</div>
+      <div class="total-num" id="total" aria-live="polite">0</div>
+      <div class="live"><span class="dot" aria-hidden="true"></span> live across all platforms</div>
+    </div>
+
+    <noscript>
+      <p class="nojs">
+        Follow GlobalStatsX:
+        <a href="https://x.com/GlobalStatsX" target="_blank" rel="noopener noreferrer">X</a> ·
+        <a href="https://instagram.com/GlobalStatsX" target="_blank" rel="noopener noreferrer">Instagram</a> ·
+        <a href="https://facebook.com/GlobalStatsX" target="_blank" rel="noopener noreferrer">Facebook</a> ·
+        <a href="https://threads.net/@GlobalStatsX" target="_blank" rel="noopener noreferrer">Threads</a> ·
+        <a href="https://tiktok.com/@GlobalStatsX" target="_blank" rel="noopener noreferrer">TikTok</a>
+      </p>
+    </noscript>
   </main>
+
+  <script>
+  (function () {
+    // ─────────────────────────────────────────────────────────────────────
+    // CONFIG — the ONLY place to edit links + follower numbers.
+    // followers: a number = shown & counted in the total; null = shows "—"
+    // and is excluded from the total. Total = sum of all numeric followers.
+    // ─────────────────────────────────────────────────────────────────────
+    const SOCIALS = [
+      { key: 'x',         name: 'X',         url: 'https://x.com/GlobalStatsX',         followers: 33000 },
+      { key: 'instagram', name: 'Instagram', url: 'https://instagram.com/GlobalStatsX', followers: 33100 },
+      { key: 'facebook',  name: 'Facebook',  url: 'https://facebook.com/GlobalStatsX',  followers: 28500 },
+      { key: 'threads',   name: 'Threads',   url: 'https://threads.net/@GlobalStatsX',  followers: 160   },
+      { key: 'tiktok',    name: 'TikTok',    url: 'https://tiktok.com/@GlobalStatsX',   followers: 10200 },
+    ];
+
+    // Simple monochrome brand glyphs (viewBox 0 0 24 24, fill=currentColor).
+    const ICONS = {
+      x:         '<path d="M17.53 3H20.5l-6.48 7.4L21.75 21h-5.97l-4.67-6.1L5.74 21H2.77l6.93-7.92L2.25 3h6.12l4.22 5.58L17.53 3zm-1.05 16.2h1.65L7.6 4.7H5.83l10.65 14.5z"/>',
+      instagram: '<path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38C1.36 2.67.94 3.34.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.12.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.72 2.12-1.38.66-.66 1.08-1.33 1.38-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.72-1.46-1.38-2.12-.66-.66-1.33-1.08-2.12-1.38-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0M12 5.84A6.16 6.16 0 1 0 12 18.16 6.16 6.16 0 0 0 12 5.84M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8M18.41 4.15a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88"/>',
+      facebook:  '<path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H17V3.6c-.3-.04-1.3-.13-2.46-.13-2.43 0-4.1 1.48-4.1 4.21v2.32H7.7V13h2.74v8h3.06z"/>',
+      threads:   '<path d="M16.93 11.13c-.09-.04-.18-.08-.27-.12-.16-2.93-1.76-4.6-4.45-4.62h-.04c-1.6 0-2.94.69-3.76 1.94l1.48 1.02c.61-.93 1.57-1.13 2.28-1.13h.03c.88.01 1.55.27 1.98.77.31.36.52.86.63 1.49a13.5 13.5 0 0 0-2.6-.13c-2.62.15-4.3 1.68-4.19 3.8.06 1.08.59 2 1.51 2.6.78.5 1.78.74 2.82.69 1.37-.08 2.45-.6 3.2-1.56.57-.72.93-1.66 1.09-2.84.66.4 1.15.92 1.42 1.55.46 1.07.49 2.82-.94 4.24-1.25 1.25-2.76 1.79-5.04 1.81-2.53-.02-4.45-.83-5.69-2.42C5.7 15.95 5.1 13.9 5.08 12c.02-1.9.62-3.95 1.82-5.49C8.14 4.92 10.06 4.1 12.6 4.09c2.55.02 4.4.85 5.49 2.46.54.79.94 1.79 1.21 2.95l1.74-.46c-.32-1.4-.82-2.62-1.51-3.62C18.62 3.3 16.3 2.18 12.61 2.16h-.02C8.9 2.18 6.6 3.3 5.16 5.47 3.88 7.4 3.22 10.08 3.2 11.99v.02c.02 1.91.68 4.59 1.96 6.52C6.6 20.7 8.9 21.82 12.59 21.84h.02c3.28-.02 5.59-.88 7.49-2.79 2.49-2.49 2.41-5.61 1.59-7.53-.59-1.38-1.71-2.5-3.24-3.24-.31-.15-.34-.16-.52-.15zm-4.59 4.92c-1.15.07-2.35-.45-2.4-1.53-.04-.8.57-1.7 2.47-1.81.22-.01.43-.02.64-.02.69 0 1.33.07 1.92.2-.22 2.74-1.51 2.9-2.63 2.96z"/>',
+      tiktok:    '<path d="M21 8.5a6.3 6.3 0 0 1-3.77-1.26v6.94A5.7 5.7 0 1 1 11.6 8.55v2.94a2.8 2.8 0 1 0 1.96 2.67V2h2.95a3.4 3.4 0 0 0 .05.62 3.4 3.4 0 0 0 1.5 2.24A3.4 3.4 0 0 0 21 5.6V8.5z"/>',
+    };
+
+    const reduceMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isNum = (v) => typeof v === 'number' && isFinite(v);
+
+    // 33000 -> "33K", 33100 -> "33.1K", 28500 -> "28.5K", 160 -> "160".
+    function compact(n) {
+      if (n < 1000) return String(Math.round(n));
+      const r = Math.round((n / 1000) * 10) / 10;
+      return (Number.isInteger(r) ? r : r.toFixed(1)) + 'K';
+    }
+    const withComma = (n) => Math.round(n).toLocaleString('en-US');
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    function animate(el, target, duration, fmt) {
+      if (reduceMotion || duration <= 0) { el.textContent = fmt(target); return; }
+      const start = performance.now();
+      (function step(now) {
+        const t = Math.min(1, (now - start) / duration);
+        el.textContent = fmt(target * easeOutCubic(t));
+        if (t < 1) requestAnimationFrame(step);
+        else el.textContent = fmt(target);
+      })(start);
+    }
+
+    // Build the social cards from CONFIG.
+    const wrap = document.getElementById('socials');
+    const toAnimate = [];
+    for (const s of SOCIALS) {
+      const numeric = isNum(s.followers);
+      const item = document.createElement('div');
+      item.className = 'social';
+      const a = document.createElement('a');
+      a.className = 'icon';
+      a.href = s.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.setAttribute('aria-label', s.name + (numeric ? ' — ' + withComma(s.followers) + ' followers' : ''));
+      a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[s.key] || '') + '</svg>';
+      const count = document.createElement('div');
+      count.className = 'count';
+      count.textContent = numeric ? '0' : '—';
+      const name = document.createElement('div');
+      name.className = 'pname';
+      name.textContent = s.name;
+      item.append(a, count, name);
+      wrap.appendChild(item);
+      if (numeric) toAnimate.push([count, s.followers]);
+    }
+
+    // Total = sum of numeric followers (null excluded).
+    const total = SOCIALS.reduce((sum, s) => sum + (isNum(s.followers) ? s.followers : 0), 0);
+    const totalEl = document.getElementById('total');
+
+    function run() {
+      for (const [el, target] of toAnimate) animate(el, target, 1500, compact);
+      animate(totalEl, total, 1800, withComma);
+    }
+    if (document.readyState === 'complete') run();
+    else window.addEventListener('load', run, { once: true });
+  })();
+  </script>
 </body>
 </html>
