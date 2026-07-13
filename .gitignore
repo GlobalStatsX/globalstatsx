@@ -3,6 +3,7 @@
 Thumbs.db
 *.log
 
-# dependencies / build (none currently — static site)
+# dependencies / build output
 node_modules/
+dist/
 .vercel

@@ -1,0 +1,12 @@
+{
+  "name": "globalstatsx",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@vercel/og": "^0.6.2"
+  }
+}
