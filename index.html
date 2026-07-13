@@ -196,15 +196,33 @@
       color: rgba(255,255,255,.9);
     }
     .vision .note {
-      margin-top: .7rem; font-size: 14px; font-weight: 400; color: var(--muted);
+      margin-top: .7rem; font-size: 16px; font-weight: 500; color: rgba(255,255,255,.92);
     }
+    /* scroll-down affordance under the CTA — same bright tone, gentle bounce */
+    .scroll-hint {
+      display: flex; justify-content: center; margin-top: .55rem;
+      color: rgba(255,255,255,.92);
+    }
+    .scroll-hint svg { width: 18px; height: 18px; display: block; }
+    @media (prefers-reduced-motion: no-preference) {
+      .scroll-hint svg { animation: scrollBounce 1.5s ease-in-out infinite; }
+    }
+    @keyframes scrollBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
 
     /* ── OUR SOFTWARE ─────────────────────────────────────────────────────── */
     .software { margin-top: clamp(2.4rem, 6vw, 3.6rem); }
     .section-head {
-      font-size: clamp(.62rem, 2vw, .74rem); letter-spacing: .3em;
-      text-transform: uppercase; font-weight: 700; color: rgba(255,255,255,.66);
+      display: flex; align-items: center; justify-content: center; gap: 18px;
       margin-bottom: clamp(1.2rem, 3.4vw, 1.7rem);
+    }
+    .section-head .label {
+      font-size: clamp(.62rem, 2vw, .74rem); letter-spacing: .3em; margin-right: -.3em;
+      text-transform: uppercase; font-weight: 700; color: rgba(255,255,255,.80);
+    }
+    /* thin hairlines framing the label as a real section break */
+    .section-head::before, .section-head::after {
+      content: ""; height: 1px; width: clamp(28px, 12vw, 90px);
+      background: rgba(255,255,255,.2);
     }
     .cards {
       display: grid; grid-template-columns: repeat(2, 1fr);
@@ -321,11 +339,14 @@
     <section class="vision">
       <p class="lead">Beyond creating content, we also build software. Our vision has always been global — bringing our content and software to every corner of the world.</p>
       <p class="note">Explore and try our apps &amp; tools below.</p>
+      <div class="scroll-hint" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
     </section>
 
     <!-- Our software -->
     <section class="software" aria-label="Our software">
-      <h2 class="section-head">Our Software</h2>
+      <h2 class="section-head"><span class="label">Our Software</span></h2>
       <div class="cards">
 
         <!-- QuizArenaX -->
