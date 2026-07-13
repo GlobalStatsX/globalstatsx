@@ -13,245 +13,284 @@
     gtag('config', 'G-C33M33FWVP');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>GlobalStatsX — Coming Soon</title>
-  <meta name="description" content="GlobalStatsX is coming soon. Follow us for updates." />
-  <meta name="theme-color" content="#060912" />
+  <title>GlobalStatsX — Global stats content &amp; free apps</title>
+  <meta name="description" content="GlobalStatsX creates global stats content and builds free software — QuizArenaX trivia battles and GlobalScoreX live football scores, standings and player stats. Explore and try our apps." />
+  <meta name="theme-color" content="#0d0812" />
   <meta name="robots" content="index, follow" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="GlobalStatsX — Coming Soon" />
-  <meta property="og:description" content="GlobalStatsX is coming soon. Follow us for updates." />
+  <meta property="og:title" content="GlobalStatsX — Global stats content &amp; free apps" />
+  <meta property="og:description" content="Global stats content and free software: QuizArenaX trivia battles and GlobalScoreX live football scores. Explore and try our apps." />
   <meta property="og:url" content="https://globalstatsx.com/" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://globalstatsx.com/assets/favicon/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GlobalStatsX — Global stats content &amp; free apps" />
+  <meta name="twitter:description" content="Global stats content and free software: QuizArenaX and GlobalScoreX. Explore and try our apps." />
+  <meta name="twitter:image" content="https://globalstatsx.com/assets/favicon/og.png" />
 
-  <!-- Inline SVG favicon (a small globe) — no extra request -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230b1430'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%234d7fc4' stroke-width='1.4'/%3E%3Cpath d='M5 16h22M16 5v22M8 9c5 4 11 4 16 0M8 23c5-4 11-4 16 0' fill='none' stroke='%234d7fc4' stroke-width='1.2'/%3E%3C/svg%3E" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
 
-  <!-- Display font (no display font was previously loaded) -->
+  <!-- Display font -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" />
 
   <style>
-    :root { color-scheme: dark; }
+    :root {
+      color-scheme: dark;
+      --bg: #0d0812;
+      --ink: #fff;
+      --muted: rgba(255,255,255,.62);
+      --faint: rgba(255,255,255,.5);
+      --glow: #d8703f;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; }
+    html { scroll-behavior: smooth; }
+    html, body { min-height: 100%; }
 
     body {
       font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
                    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #060912;
-      color: #fff;
-      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
       min-height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       text-align: center;
-      overflow: hidden;
       position: relative;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ── Space backdrop ──────────────────────────────────────────────── */
-    .space {
-      position: fixed; inset: 0; z-index: 0;
-      background:
-        radial-gradient(140% 100% at 50% -10%, #0e1a36 0%, #0a1226 35%, #050811 72%);
+    /* ── Sunset-horizon backdrop (fixed; content scrolls over it) ─────────── */
+    .sunset {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: linear-gradient(180deg,
+        #0d0812 0%,
+        #170b1c 18%,
+        #3d1a35 44%,
+        #6f2f39 62%,
+        #8a3a3f 74%,
+        #d8703f 85%,
+        #7a2f28 92%,
+        #0d0812 100%);
     }
-
-    /* subtle starfield (a handful of points in the upper sky) */
+    /* the glowing horizon band near ~85% height */
+    .horizon {
+      position: fixed; left: 50%; bottom: 8%; transform: translateX(-50%);
+      width: 160%; height: 46vh; z-index: 0; pointer-events: none;
+      background: radial-gradient(58% 100% at 50% 100%,
+        rgba(248,168,96,.55) 0%,
+        rgba(216,112,63,.30) 34%,
+        rgba(140,60,63,.12) 58%,
+        transparent 74%);
+      filter: blur(2px);
+    }
+    /* subtle warm starfield in the upper (dark) sky */
     .stars {
-      position: fixed; inset: 0; z-index: 0;
-      opacity: .75;
+      position: fixed; inset: 0 0 55% 0; z-index: 0; pointer-events: none;
+      opacity: .7;
       animation: twinkle 6s ease-in-out infinite;
       background-repeat: no-repeat;
       background-image:
         radial-gradient(1.2px 1.2px at 15% 22%, #fff, transparent),
-        radial-gradient(1px 1px   at 75% 12%, rgba(255,255,255,.9), transparent),
+        radial-gradient(1px 1px   at 75% 12%, rgba(255,240,230,.9), transparent),
         radial-gradient(1.4px 1.4px at 42% 34%, rgba(255,255,255,.85), transparent),
-        radial-gradient(1px 1px   at 88% 28%, rgba(255,255,255,.7), transparent),
+        radial-gradient(1px 1px   at 88% 28%, rgba(255,235,220,.7), transparent),
         radial-gradient(1px 1px   at 28% 8%,  rgba(255,255,255,.7), transparent),
         radial-gradient(1.2px 1.2px at 60% 24%, #fff, transparent),
-        radial-gradient(1px 1px   at 8% 44%,  rgba(255,255,255,.6), transparent),
-        radial-gradient(1px 1px   at 92% 48%, rgba(255,255,255,.6), transparent),
-        radial-gradient(1px 1px   at 50% 6%,  rgba(255,255,255,.7), transparent),
+        radial-gradient(1px 1px   at 8% 44%,  rgba(255,230,215,.55), transparent),
+        radial-gradient(1px 1px   at 92% 40%, rgba(255,255,255,.55), transparent),
+        radial-gradient(1px 1px   at 50% 6%,  rgba(255,240,230,.7), transparent),
         radial-gradient(1.3px 1.3px at 35% 16%, #fff, transparent),
-        radial-gradient(1px 1px   at 66% 40%, rgba(255,255,255,.55), transparent),
-        radial-gradient(1px 1px   at 22% 30%, rgba(255,255,255,.6), transparent);
+        radial-gradient(1px 1px   at 66% 30%, rgba(255,255,255,.5), transparent),
+        radial-gradient(1px 1px   at 22% 28%, rgba(255,235,220,.55), transparent);
     }
-    @keyframes twinkle { 0%,100% { opacity: .55; } 50% { opacity: .85; } }
+    @keyframes twinkle { 0%,100% { opacity: .5; } 50% { opacity: .82; } }
 
-    /* the planet — a large sphere rising from the bottom, showing the curve */
-    .planet {
-      position: fixed; left: 50%; bottom: -80vmin; transform: translateX(-50%);
-      width: 165vmin; height: 165vmin; border-radius: 50%;
-      z-index: 0;
-      background:
-        radial-gradient(125% 125% at 50% 16%,
-          #5285c9 0%, #2f5d99 20%, #1a3c69 42%, #0e2447 64%, #07142b 100%);
-      box-shadow:
-        inset 0 8px 70px rgba(150,190,255,.30),   /* lit upper limb */
-        inset 0 -40px 120px rgba(4,8,18,.55),      /* terminator/shade */
-        0 0 110px 34px rgba(45,90,160,.45);        /* atmospheric glow */
-    }
-    /* a thin bright atmosphere arc along the top edge of the planet */
-    .atmo {
-      position: fixed; left: 50%; bottom: -80vmin; transform: translateX(-50%);
-      width: 165vmin; height: 165vmin; border-radius: 50%;
-      z-index: 0; pointer-events: none;
-      box-shadow: 0 -3px 26px 2px rgba(140,185,255,.45);
-    }
-
-    /* darken the very bottom for grounding + readability */
-    .vignette {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(120% 75% at 50% 35%, transparent 55%, rgba(3,5,12,.55) 100%);
-    }
-
-    /* ── Content ─────────────────────────────────────────────────────── */
+    /* ── Layout ──────────────────────────────────────────────────────────── */
     .content {
       position: relative; z-index: 1;
-      padding: 24px;
       width: 100%;
-      max-width: 720px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: clamp(26px, 5vw, 40px) 22px clamp(40px, 7vw, 72px);
     }
 
     .brand {
-      font-size: clamp(.72rem, 2.6vw, .95rem);
+      font-size: clamp(.8rem, 2.7vw, 1.05rem);
       letter-spacing: .34em;
       text-transform: uppercase;
-      font-weight: 600;
-      color: rgba(255,255,255,.72);
-      margin-bottom: clamp(1rem, 3vw, 1.6rem);
+      font-weight: 700;
+      color: rgba(255,255,255,.82);
+      text-shadow: 0 2px 30px rgba(216,112,63,.35);
     }
 
-    .headline {
-      font-size: clamp(17px, 4.5vw, 56px);
-      font-weight: 800;
-      letter-spacing: -.02em;
-      line-height: 1.02;
-      white-space: nowrap; /* keep the typewriter title on ONE line — constant height, no loop layout-shift */
-      text-shadow: 0 2px 40px rgba(20,40,90,.5);
-    }
-    .cursor {
-      display: inline-block;
-      width: .06em;
-      height: .9em;
-      margin-left: .12em;
-      vertical-align: -.04em;
-      background: #fff;
-      animation: blink 1s step-end infinite;
-    }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-    .sub {
-      margin-top: clamp(.9rem, 2.6vw, 1.25rem);
-      font-size: clamp(.92rem, 2.6vw, 1.1rem);
-      color: rgba(255,255,255,.62);
-      font-weight: 400;
-    }
-
-    /* ── Socials + per-platform live counters ─────────────────────────── */
+    /* ── Socials + per-platform live counters ─────────────────────────────── */
     .socials {
       display: flex;
       gap: clamp(.7rem, 3.6vw, 1.7rem);
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: clamp(1.8rem, 5vw, 2.6rem);
+      margin-top: clamp(1.4rem, 4vw, 2.1rem);
     }
-    .social {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .55rem;
-      min-width: 62px;
-    }
+    .social { display: flex; flex-direction: column; align-items: center; gap: .55rem; min-width: 62px; }
     .social a.icon {
       width: 48px; height: 48px;
       display: grid; place-items: center;
       border-radius: 50%;
       color: #fff;
       background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.16);
       -webkit-backdrop-filter: blur(4px);
       backdrop-filter: blur(4px);
       transition: background .2s ease, transform .2s ease, border-color .2s ease;
     }
     .social a.icon:hover {
-      background: rgba(255,255,255,.18);
-      border-color: rgba(255,255,255,.28);
+      background: rgba(255,190,140,.20);
+      border-color: rgba(255,190,140,.4);
       transform: translateY(-2px);
     }
     .social a.icon:focus-visible {
-      outline: 2px solid #6fa8ff;
-      outline-offset: 3px;
-      background: rgba(255,255,255,.18);
-      border-color: rgba(255,255,255,.28);
+      outline: 2px solid var(--glow); outline-offset: 3px;
+      background: rgba(255,190,140,.2); border-color: rgba(255,190,140,.4);
     }
     .social svg { width: 20px; height: 20px; fill: currentColor; display: block; }
     .social .count {
-      font-weight: 800;
-      font-size: clamp(.95rem, 3.4vw, 1.18rem);
-      line-height: 1;
-      letter-spacing: -.01em;
-      font-variant-numeric: tabular-nums;
-      color: #fff;
+      font-weight: 800; font-size: clamp(.95rem, 3.4vw, 1.18rem);
+      line-height: 1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: #fff;
     }
     .social .pname {
-      font-size: clamp(.56rem, 2vw, .66rem);
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: rgba(255,255,255,.5);
+      font-size: clamp(.56rem, 2vw, .66rem); letter-spacing: .14em;
+      text-transform: uppercase; font-weight: 600; color: var(--faint);
     }
 
-    /* ── Total followers signature block ──────────────────────────────── */
-    .total { margin-top: clamp(1.7rem, 4.8vw, 2.4rem); }
+    /* ── Total followers signature block ──────────────────────────────────── */
+    .total { margin-top: clamp(1.5rem, 4.2vw, 2.1rem); }
     .total-label {
-      font-size: clamp(.58rem, 2vw, .7rem);
-      letter-spacing: .26em;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: rgba(255,255,255,.5);
-      margin-bottom: .5rem;
+      font-size: clamp(.58rem, 2vw, .7rem); letter-spacing: .26em;
+      text-transform: uppercase; font-weight: 600; color: var(--faint); margin-bottom: .5rem;
     }
     .total-num {
-      font-weight: 800;
-      font-size: clamp(2.4rem, 9vw, 4rem);
-      line-height: 1;
-      letter-spacing: -.02em;
-      font-variant-numeric: tabular-nums;
-      background: linear-gradient(180deg, #cfe0ff 0%, #6fa8ff 55%, #3f72c8 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 2px 40px rgba(40,90,180,.4);
+      font-weight: 800; font-size: clamp(2.4rem, 9vw, 4rem);
+      line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums;
+      background: linear-gradient(180deg, #ffe6c2 0%, #f6a95f 52%, #d8703f 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      text-shadow: 0 2px 42px rgba(216,112,63,.42);
     }
-    /* no-JS fallback links */
-    .nojs { margin-top: 1.6rem; font-size: .85rem; color: rgba(255,255,255,.7); }
-    .nojs a { color: #9cc2ff; }
 
+    /* ── Vision text block ────────────────────────────────────────────────── */
+    .vision { max-width: 580px; margin: clamp(2.2rem, 6vw, 3.2rem) auto 0; }
+    .vision .lead {
+      font-size: clamp(15px, 2.4vw, 17px); font-weight: 400; line-height: 1.55;
+      color: rgba(255,255,255,.9);
+    }
+    .vision .note {
+      margin-top: .7rem; font-size: 14px; font-weight: 400; color: var(--muted);
+    }
+
+    /* ── OUR SOFTWARE ─────────────────────────────────────────────────────── */
+    .software { margin-top: clamp(2.4rem, 6vw, 3.6rem); }
+    .section-head {
+      font-size: clamp(.62rem, 2vw, .74rem); letter-spacing: .3em;
+      text-transform: uppercase; font-weight: 700; color: rgba(255,255,255,.66);
+      margin-bottom: clamp(1.2rem, 3.4vw, 1.7rem);
+    }
+    .cards {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: clamp(16px, 2.4vw, 24px); text-align: left;
+    }
+    .card {
+      background: rgba(20, 12, 24, .55);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px;
+      padding: clamp(18px, 2.4vw, 26px);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      box-shadow: 0 18px 50px -24px rgba(0,0,0,.8);
+      display: flex; flex-direction: column;
+    }
+    .card-head { display: flex; align-items: center; gap: 14px; }
+    .card-head img {
+      width: 56px; height: 56px; border-radius: 14px; display: block;
+      box-shadow: 0 6px 18px -6px rgba(0,0,0,.7);
+    }
+    .card-head h3 { font-size: clamp(1.15rem, 2.4vw, 1.4rem); font-weight: 800; letter-spacing: -.01em; }
+    .card .tagline {
+      margin-top: 12px; font-size: 14px; line-height: 1.5;
+      color: rgba(255,255,255,.74); min-height: 42px;
+    }
+    .shots {
+      margin-top: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    }
+    .shots img {
+      width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover;
+      border-radius: 10px; display: block;
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.04);
+    }
+    .btns { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 16px; border-radius: 12px;
+      font-size: 14px; font-weight: 700; text-decoration: none;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .btn svg { width: 16px; height: 16px; display: block; }
+    .btn-play {
+      color: #1a1020;
+      background: linear-gradient(180deg, #ffd9a8, #f6a95f);
+      box-shadow: 0 10px 24px -12px rgba(246,169,95,.9);
+    }
+    .btn-play:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -12px rgba(246,169,95,1); }
+    .btn-web {
+      color: #fff; background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.22);
+    }
+    .btn-web:hover { transform: translateY(-2px); background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.34); }
+    .btn:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+
+    /* ── Footer ───────────────────────────────────────────────────────────── */
+    .foot {
+      margin-top: clamp(2.4rem, 6vw, 3.4rem);
+      font-size: 13px; color: rgba(255,255,255,.5); letter-spacing: .02em;
+    }
+
+    /* no-JS fallback links */
+    .nojs { margin-top: 1.4rem; font-size: .85rem; color: rgba(255,255,255,.7); }
+    .nojs a { color: #f6b98a; }
+
+    /* ── Responsive ───────────────────────────────────────────────────────── */
+    @media (max-width: 820px) {
+      .cards { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+    }
+    @media (max-width: 520px) {
+      .shots { grid-template-columns: repeat(2, 1fr); }
+      .card .tagline { min-height: 0; }
+    }
+    @media (max-width: 430px) {
+      .socials { gap: .5rem; }
+      .social { min-width: 54px; }
+    }
     @media (max-width: 380px) {
       .social a.icon { width: 44px; height: 44px; }
+      .social { min-width: 50px; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .cursor, .stars { animation: none; }
+      .stars { animation: none; }
+      html { scroll-behavior: auto; }
     }
   </style>
 </head>
 <body>
-  <div class="space" aria-hidden="true"></div>
+  <div class="sunset" aria-hidden="true"></div>
+  <div class="horizon" aria-hidden="true"></div>
   <div class="stars" aria-hidden="true"></div>
-  <div class="planet" aria-hidden="true"></div>
-  <div class="atmo" aria-hidden="true"></div>
-  <div class="vignette" aria-hidden="true"></div>
 
   <main class="content">
     <div class="brand">GlobalStatsX</div>
-    <h1 class="headline"><span id="tw"></span><span class="cursor" aria-hidden="true"></span></h1>
-    <p class="sub">Something big is on the horizon.</p>
 
     <!-- Social row + live counters — rendered from the CONFIG in the script below -->
     <section class="socials" id="socials" aria-label="GlobalStatsX on social media"></section>
@@ -261,6 +300,72 @@
       <div class="total-label">Followers across platforms</div>
       <div class="total-num" id="total" aria-live="polite">0</div>
     </div>
+
+    <!-- Vision -->
+    <section class="vision">
+      <p class="lead">Beyond creating content, we also build software. Our vision has always been global — bringing our content and software to every corner of the world.</p>
+      <p class="note">Explore and try our free software below.</p>
+    </section>
+
+    <!-- Our software -->
+    <section class="software" aria-label="Our software">
+      <h2 class="section-head">Our Software</h2>
+      <div class="cards">
+
+        <!-- QuizArenaX -->
+        <article class="card">
+          <div class="card-head">
+            <img src="/assets/quizarenax/logo.png" alt="QuizArenaX logo" width="56" height="56" />
+            <h3>QuizArenaX</h3>
+          </div>
+          <p class="tagline">Trivia quiz battles — solo runs and 1v1 matches across 10+ categories.</p>
+          <div class="shots">
+            <img src="/assets/quizarenax/shot-1.png" alt="QuizArenaX screenshot 1" width="480" height="853" />
+            <img src="/assets/quizarenax/shot-2.png" alt="QuizArenaX screenshot 2" width="480" height="853" />
+            <img src="/assets/quizarenax/shot-3.png" alt="QuizArenaX screenshot 3" width="480" height="853" />
+            <img src="/assets/quizarenax/shot-4.png" alt="QuizArenaX screenshot 4" width="480" height="853" />
+          </div>
+          <div class="btns">
+            <a class="btn btn-play" href="https://play.google.com/store/apps/details?id=com.quizarenax.app" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3.6 2.3 13.9 12 3.6 21.7a1 1 0 0 1-.6-.9V3.2a1 1 0 0 1 .6-.9zm11.7 8.3 2.8 2.8-3.3 1.9-2.4-2.4 2.9-2.3zm0 2.8-2.9 2.9 4.9 2.8a1 1 0 0 0 1-.02l.13-.08-3.13-5.5zm3.13-7.9-.13-.08a1 1 0 0 0-1-.02L13.5 9.2l2.9 2.9 2.13-3.8z"/></svg>
+              Google Play
+            </a>
+            <a class="btn btn-web" href="https://quizarenax.com/" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>
+              Web
+            </a>
+          </div>
+        </article>
+
+        <!-- GlobalScoreX -->
+        <article class="card">
+          <div class="card-head">
+            <img src="/assets/globalscorex/logo.png" alt="GlobalScoreX logo" width="56" height="56" />
+            <h3>GlobalScoreX</h3>
+          </div>
+          <p class="tagline">Live football scores, standings and player stats — web and mobile.</p>
+          <div class="shots">
+            <img src="/assets/globalscorex/shot-1.png" alt="GlobalScoreX screenshot 1" width="480" height="853" />
+            <img src="/assets/globalscorex/shot-2.png" alt="GlobalScoreX screenshot 2" width="480" height="853" />
+            <img src="/assets/globalscorex/shot-3.png" alt="GlobalScoreX screenshot 3" width="480" height="853" />
+            <img src="/assets/globalscorex/shot-4.png" alt="GlobalScoreX screenshot 4" width="480" height="853" />
+          </div>
+          <div class="btns">
+            <a class="btn btn-play" href="https://play.google.com/store/apps/details?id=com.globalscorex.app" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3.6 2.3 13.9 12 3.6 21.7a1 1 0 0 1-.6-.9V3.2a1 1 0 0 1 .6-.9zm11.7 8.3 2.8 2.8-3.3 1.9-2.4-2.4 2.9-2.3zm0 2.8-2.9 2.9 4.9 2.8a1 1 0 0 0 1-.02l.13-.08-3.13-5.5zm3.13-7.9-.13-.08a1 1 0 0 0-1-.02L13.5 9.2l2.9 2.9 2.13-3.8z"/></svg>
+              Google Play
+            </a>
+            <a class="btn btn-web" href="https://www.globalscorex.com/" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>
+              Web
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <p class="foot">More tools are on the way.</p>
 
     <noscript>
       <p class="nojs">
@@ -357,32 +462,6 @@
     }
     if (document.readyState === 'complete') run();
     else window.addEventListener('load', run, { once: true });
-  })();
-  </script>
-
-  <script>
-  // Continuous typewriter loop for the title. Types → pauses → deletes → loops.
-  // Honors prefers-reduced-motion (static full text, no loop).
-  (function typewriter() {
-    var el = document.getElementById('tw');
-    if (!el) return;
-    var TXT = 'Coming Soon...';
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) { el.textContent = TXT; return; }
-    var i = 0, deleting = false;
-    (function tick() {
-      if (!deleting) {
-        i++;
-        el.textContent = TXT.slice(0, i);
-        if (i >= TXT.length) { deleting = true; setTimeout(tick, 1800); return; }
-        setTimeout(tick, 110);
-      } else {
-        i--;
-        el.textContent = TXT.slice(0, i);
-        if (i <= 0) { deleting = false; setTimeout(tick, 550); return; }
-        setTimeout(tick, 55);
-      }
-    })();
   })();
   </script>
 </body>
