@@ -339,10 +339,10 @@
             <img src="/assets/quizarenax/shot-4.png" alt="QuizArenaX screenshot 4" width="480" height="853" />
           </div>
           <div class="btns">
-            <a class="badge-play" href="https://play.google.com/store/apps/details?id=com.quizarenax.app" target="_blank" rel="noopener noreferrer" aria-label="Get QuizArenaX on Google Play">
+            <a class="badge-play" href="https://play.google.com/store/apps/details?id=com.quizarenax.app" target="_blank" rel="noopener noreferrer" aria-label="Get QuizArenaX on Google Play" data-ga-event="play_badge_click" data-ga-key="app_name" data-ga-val="quizarenax">
               <img src="/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="564" height="168" />
             </a>
-            <a class="btn-web" href="https://quizarenax.com/" target="_blank" rel="noopener noreferrer">
+            <a class="btn-web" href="https://quizarenax.com/" target="_blank" rel="noopener noreferrer" data-ga-event="web_button_click" data-ga-key="app_name" data-ga-val="quizarenax">
               <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>
               Web App
             </a>
@@ -363,10 +363,10 @@
             <img src="/assets/globalscorex/shot-4.png" alt="GlobalScoreX screenshot 4" width="480" height="853" />
           </div>
           <div class="btns">
-            <a class="badge-play" href="https://play.google.com/store/apps/details?id=com.globalscorex.app" target="_blank" rel="noopener noreferrer" aria-label="Get GlobalScoreX on Google Play">
+            <a class="badge-play" href="https://play.google.com/store/apps/details?id=com.globalscorex.app" target="_blank" rel="noopener noreferrer" aria-label="Get GlobalScoreX on Google Play" data-ga-event="play_badge_click" data-ga-key="app_name" data-ga-val="globalscorex">
               <img src="/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="564" height="168" />
             </a>
-            <a class="btn-web" href="https://www.globalscorex.com/" target="_blank" rel="noopener noreferrer">
+            <a class="btn-web" href="https://www.globalscorex.com/" target="_blank" rel="noopener noreferrer" data-ga-event="web_button_click" data-ga-key="app_name" data-ga-val="globalscorex">
               <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>
               Web App
             </a>
@@ -451,6 +451,9 @@
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
       a.setAttribute('aria-label', s.name + (numeric ? ' — ' + withComma(s.followers) + ' followers' : ''));
+      a.dataset.gaEvent = 'social_icon_click';   // GA4 outbound-click tracking (see delegated listener)
+      a.dataset.gaKey = 'platform';
+      a.dataset.gaVal = s.key;
       a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[s.key] || '') + '</svg>';
       const count = document.createElement('div');
       count.className = 'count';
@@ -474,6 +477,22 @@
     if (document.readyState === 'complete') run();
     else window.addEventListener('load', run, { once: true });
   })();
+  </script>
+
+  <script>
+  // GA4 outbound-click tracking. One delegated listener reads data-ga-* off the
+  // clicked anchor (Play badges, Web buttons, social icons) and fires a gtag
+  // event. Links open in a new tab, so the plain gtag() call sends without
+  // blocking navigation — no event_callback needed. Uses the existing base tag.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-ga-event]');
+    if (!a || typeof gtag !== 'function') return;
+    var params = {};
+    var key = a.getAttribute('data-ga-key');
+    var val = a.getAttribute('data-ga-val');
+    if (key && val) params[key] = val;
+    gtag('event', a.getAttribute('data-ga-event'), params);
+  });
   </script>
 </body>
 </html>
