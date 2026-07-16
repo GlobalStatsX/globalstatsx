@@ -207,6 +207,7 @@
     .scroll-hint {
       display: flex; justify-content: center; margin-top: .55rem;
       color: rgba(255,255,255,.92);
+      cursor: pointer; text-decoration: none;
     }
     .scroll-hint svg { width: 18px; height: 18px; display: block; }
     @media (prefers-reduced-motion: no-preference) {
@@ -345,13 +346,13 @@
       <p class="lead">We create global stats and rankings content.</p>
       <p class="lead">Beyond creating content, we also build software. Our vision has always been global — bringing our content and software to every corner of the world.</p>
       <p class="note">Explore and try our apps &amp; tools below.</p>
-      <div class="scroll-hint" aria-hidden="true">
+      <a class="scroll-hint" href="#software" aria-label="Jump to our apps and tools">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-      </div>
+      </a>
     </section>
 
     <!-- Our software -->
-    <section class="software" aria-label="Our software">
+    <section class="software" id="software" aria-label="Our software">
       <h2 class="section-head"><span class="label">Our Software</span></h2>
       <div class="cards">
 
