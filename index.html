@@ -170,6 +170,10 @@
       color: #fff;
       background: rgba(255,255,255,.07);
       border: 1px solid rgba(255,255,255,.16);
+      /* Thin white ring matching the hero logo (1.5px vs the logo's 2px, since
+         the icons are smaller). box-shadow spread hugs the circle's outer edge
+         without changing box size, glyph, or row spacing -> no layout shift. */
+      box-shadow: 0 0 0 1.5px #FFFFFF;
       -webkit-backdrop-filter: blur(4px);
       backdrop-filter: blur(4px);
       transition: background .2s ease, transform .2s ease, border-color .2s ease;
