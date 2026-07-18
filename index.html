@@ -139,6 +139,19 @@
     /* GlobalStatsX circular badge, left of the wordmark. The source PNG has ~24%
        transparent padding around the circle, which forms part of the visual gap. */
     .brand-logo { width: clamp(68px, 17vw, 88px); height: auto; display: block; flex: none; }
+    /* Thin white ring hugging the VISIBLE circle of CircleLogo.png. The PNG has
+       24.4% transparent padding each side, so the visible badge is 51.2% of the
+       image box; the ::after draws a 2px ring at that diameter + a ~3px gap,
+       absolutely positioned so it never shifts layout nor touches the logo. */
+    .logo-wrap { position: relative; display: inline-flex; flex: none; line-height: 0; }
+    .logo-wrap::after {
+      content: ""; position: absolute; top: 50%; left: 50%;
+      width: 51.2%; height: 51.2%;
+      transform: translate(-50%, -50%);
+      box-sizing: content-box; padding: 3px;
+      border: 2px solid #FFFFFF; border-radius: 50%;
+      pointer-events: none;
+    }
     .brand .wordmark { margin-right: -.34em; } /* offset trailing letter-spacing so the pair is optically centered */
 
     /* ── Socials + per-platform live counters ─────────────────────────────── */
@@ -330,7 +343,7 @@
   <div class="stars" aria-hidden="true"></div>
 
   <main class="content">
-    <h1 class="brand"><img class="brand-logo" src="/assets/GlobalStatsX_Logo/CircleLogo.png" alt="GlobalStatsX logo" width="88" height="88" /><span class="wordmark">GlobalStatsX</span></h1>
+    <h1 class="brand"><span class="logo-wrap"><img class="brand-logo" src="/assets/GlobalStatsX_Logo/CircleLogo.png" alt="GlobalStatsX logo" width="88" height="88" /></span><span class="wordmark">GlobalStatsX</span></h1>
 
     <!-- Social row + live counters — rendered from the CONFIG in the script below -->
     <section class="socials" id="socials" aria-label="GlobalStatsX on social media"></section>
