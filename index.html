@@ -299,15 +299,21 @@
     .badge-play:focus-visible, .btn-web:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; border-radius: 8px; }
 
     /* ── Footer ───────────────────────────────────────────────────────────── */
+    /* The footer sits on the BRIGHT part of the sunset gradient, where low-opacity
+       white washes out. Use near-white + a soft dark glow (same idiom as .total-num's
+       glow, but dark): the glow gives a legibility backing that survives both the
+       bright-orange horizon and the dark sky, robust to any scroll position. */
     .foot {
       margin-top: clamp(2.4rem, 6vw, 3.4rem);
-      font-size: 13px; color: rgba(255,255,255,.5); letter-spacing: .02em;
+      font-size: 13px; color: rgba(255,255,255,.96); letter-spacing: .02em;
+      text-shadow: 0 1px 2px rgba(0,0,0,.85), 0 0 14px rgba(10,6,14,.85), 0 0 26px rgba(10,6,14,.55);
     }
-    /* Standard copyright line — muted like .foot, a touch smaller/dimmer so it reads
-       as subordinate. The year is injected at build time by build.mjs. */
+    /* Standard copyright line — near-white but a touch dimmer than .foot so it reads
+       as subordinate while staying legible. Year injected at build time by build.mjs. */
     .copyright {
       margin-top: .85rem;
-      font-size: 12px; color: rgba(255,255,255,.4); letter-spacing: .02em;
+      font-size: 12px; color: rgba(255,255,255,.86); letter-spacing: .02em;
+      text-shadow: 0 1px 2px rgba(0,0,0,.85), 0 0 14px rgba(10,6,14,.85), 0 0 26px rgba(10,6,14,.55);
     }
 
     /* no-JS fallback links */
