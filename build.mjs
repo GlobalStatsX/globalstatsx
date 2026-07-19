@@ -25,6 +25,7 @@ const SOCIALS = data.platforms.map((p) => ({ key: p.key, name: p.label, url: URL
 
 let html = fs.readFileSync('index.html', 'utf8');
 html = html.split('__OG_VER__').join(OG_VER);
+html = html.split('__YEAR__').join(String(new Date().getFullYear())); // auto copyright year (build time)
 html = html.replace(
   /const SOCIALS = \[[\s\S]*?\]; \/\/__SOCIALS_END__/,
   'const SOCIALS = ' + JSON.stringify(SOCIALS, null, 2).replace(/\n/g, '\n    ') + ';',

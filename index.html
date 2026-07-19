@@ -303,6 +303,12 @@
       margin-top: clamp(2.4rem, 6vw, 3.4rem);
       font-size: 13px; color: rgba(255,255,255,.5); letter-spacing: .02em;
     }
+    /* Standard copyright line — muted like .foot, a touch smaller/dimmer so it reads
+       as subordinate. The year is injected at build time by build.mjs. */
+    .copyright {
+      margin-top: .85rem;
+      font-size: 12px; color: rgba(255,255,255,.4); letter-spacing: .02em;
+    }
 
     /* no-JS fallback links */
     .nojs { margin-top: 1.4rem; font-size: .85rem; color: rgba(255,255,255,.7); }
@@ -424,7 +430,7 @@
       </div>
     </section>
 
-    <p class="foot">More tools are on the way.</p>
+    <p class="foot">More mobile &amp; web apps on the way</p>
 
     <noscript>
       <p class="nojs">
@@ -436,6 +442,8 @@
         <a href="https://tiktok.com/@GlobalStatsX" target="_blank" rel="noopener noreferrer">TikTok</a>
       </p>
     </noscript>
+
+    <p class="copyright">&copy; __YEAR__ GlobalStatsX. All rights reserved.</p>
   </main>
 
   <script>
