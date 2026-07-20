@@ -299,6 +299,39 @@
     .badge-play:focus-visible, .btn-web:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; border-radius: 8px; }
 
     /* ── Footer ───────────────────────────────────────────────────────────── */
+    /* Divider between the software cards and the footer lines. Same construction
+       as .section-head (hairline + centred element + hairline, 18px gap, 1px rule)
+       so it reads as the same idiom — only the centre is the brand badge, not a
+       text label. Opacities are a touch higher than .section-head's .2 because
+       this sits on the bright orange horizon rather than the dark sky. */
+    .foot-divider {
+      display: flex; align-items: center; justify-content: center; gap: 18px;
+      margin-top: clamp(2.6rem, 7vw, 3.6rem);
+    }
+    .foot-divider::before, .foot-divider::after {
+      content: ""; height: 1px; width: clamp(28px, 12vw, 90px);
+      background: rgba(255,255,255,.7);
+      box-shadow: 0 1px 2px rgba(10,6,14,.55);
+    }
+    /* Ring holding the badge. CircleLogo.png has 24.4% transparent padding each
+       side (visible badge = 51.2% of the box), so a 41px image draws a ~21px badge,
+       leaving a ~3.5px gap inside the ring — the same inset as the header logo ring.
+       The transparent overflow is invisible, so no clipping is needed. */
+    .foot-mark {
+      position: relative; flex: none;
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.72);
+      box-shadow: 0 1px 2px rgba(10,6,14,.55), 0 0 12px rgba(10,6,14,.45);
+    }
+    /* Absolute-centred, not grid-centred: the image is WIDER than the ring, and
+       flex/grid `center` clamps an overflowing item to the start edge (it renders
+       down-right instead of centred). translate(-50%,-50%) always centres it. */
+    .foot-mark img {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 41px; height: 41px; display: block;
+    }
+
     /* The footer sits on the BRIGHT part of the sunset gradient, where low-opacity
        white washes out. Use near-white + a soft dark glow (same idiom as .total-num's
        glow, but dark): the glow gives a legibility backing that survives both the
@@ -435,6 +468,12 @@
 
       </div>
     </section>
+
+    <!-- Separates the software cards above from the footer group below. The two
+         footer lines stay one group; the divider goes ABOVE both. -->
+    <div class="foot-divider" role="separator">
+      <span class="foot-mark"><img src="/assets/GlobalStatsX_Logo/CircleLogo.png" alt="" width="41" height="41" loading="lazy" /></span>
+    </div>
 
     <p class="foot">More mobile &amp; web apps on the way</p>
 
