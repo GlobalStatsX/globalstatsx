@@ -367,6 +367,7 @@
     /* ── Responsive ───────────────────────────────────────────────────────── */
     @media (max-width: 820px) {
       .cards { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+      .cards .card:nth-child(2) { order: -1; } /* GlobalScoreX first on mobile only */
     }
     @media (max-width: 520px) {
       /* EXPERIMENT: keep the 4 screenshots in a single row on mobile too
